@@ -123,4 +123,8 @@ python3 Scripts/smoke.py --credential-file /ABSOLUTE/PATH/AGENT.json
 
 服务只承诺当前 Mac 实际可访问的数据；尚未同步到本机的历史聊天、录音和转写不会被描述成已经读取。已有 Apple 转写与服务新生成的转写分别标注来源。
 
+## 许可证
+
+本项目采用 [MIT License](LICENSE)，Copyright (c) 2026 SJF-ECNU。第三方依赖保留各自版权与许可证，详见 [第三方许可说明](THIRD_PARTY_NOTICES.md)。
+
 喵～
