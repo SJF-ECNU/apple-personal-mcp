@@ -60,7 +60,11 @@ struct DashboardView: View {
     private var sidebar: some View {
         VStack(alignment: .leading, spacing: 0) {
             HStack(spacing: 10) {
-                Image(systemName: "square.stack.3d.up.fill").font(.system(size: 24)).foregroundStyle(Ink.text)
+                if let icon = NSImage(named: "AppIcon") {
+                    Image(nsImage: icon).resizable().frame(width: 32, height: 32).accessibilityLabel("Apple Personal MCP")
+                } else {
+                    Image(systemName: "square.stack.3d.up.fill").font(.system(size: 24)).foregroundStyle(Ink.text)
+                }
                 VStack(alignment: .leading, spacing: 3) {
                     Text("Apple Personal").font(.system(size: 13, weight: .semibold))
                     Text("MCP FOR MAC").font(.system(size: 9, weight: .medium, design: .monospaced)).tracking(1.4).foregroundStyle(Ink.secondary)
