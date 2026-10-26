@@ -1,0 +1,31 @@
+schema: spec-driven
+context: |
+  项目为 macOS 本地个人应用 MCP，范围仅为 Mail、Calendar、Reminders、Notes、Messages、Voice Memos。
+  官方接口优先；用户允许在接口不足时只读本地数据，禁止写入 Apple 私有数据库或调用私有写入 API。
+  当前开发版 0.4.0 实现统一原生 App、多 Agent 独立授权/并发、六应用读取、Mail/Calendar/Reminders/Notes 官方写入、Messages 官方发送、语音任务与专用快捷指令录音控制。具体能力和未验收项以 README 及 docs/validation 为准；邀请真实发送未再次验收，不把准备成功当发送成功。禁止 npm 包/Node 启动入口。
+  设计面向 Apple silicon、macOS 26 及以上；当前机器为 macOS 27.0 arm64。
+  使用中文说明，事实、设计决策和待实测项分别表述。
+  不新增内容 Hash、冻结接口、Baseline 或普通开发 Gate；使用版本管理、类型、事务和普通测试。
+rules:
+  tasks:
+    - 实施任务保持未勾选，直到真实执行和验证完成。
+    - 权限、聊天历史解析、录音原始转写需要真机验证，静态检查不能替代。
+
+# Project context (optional)
+# This is shown to AI when creating artifacts.
+# Add your tech stack, conventions, style guides, domain knowledge, etc.
+# Example:
+#   context: |
+#     Tech stack: TypeScript, React, Node.js
+#     We use conventional commits
+#     Domain: e-commerce platform
+
+# Per-artifact rules (optional)
+# Add custom rules for specific artifacts.
+# Example:
+#   rules:
+#     proposal:
+#       - Keep proposals under 500 words
+#       - Always include a "Non-goals" section
+#     tasks:
+#       - Break tasks into chunks of max 2 hours

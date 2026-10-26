@@ -1,0 +1,28 @@
+{
+  "date": "2026-10-26",
+  "production_lines_before": 3647,
+  "production_lines_after": 3608,
+  "production_bytes_before": 303106,
+  "production_bytes_after": 296377,
+  "cached_tool_properties": 13,
+  "tool_property_bodies_unchanged": true,
+  "existing_tests_before": 40,
+  "tests_after": 44,
+  "private_file_write_callers": 12,
+  "required_string_callers": 50,
+  "body_paging_callers": 8,
+  "owner_xpc_methods_shared": 5,
+  "signed_build": true,
+  "signed_readonly_owner_client_probe": true,
+  "installed_app_replaced": false,
+  "application_service_restarted": false,
+  "external_send_attempted": false,
+  "system_app_ui_opened": false,
+  "test_source_changes": [],
+  "new_tests": [
+    "descriptor identities and scalar/list decoding",
+    "event target/class/parameters without sending",
+    "private replacement permissions and encoding failure",
+    "required strings and Unicode body cursors"
+  ]
+}
