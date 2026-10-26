@@ -1,0 +1,14 @@
+.build/
+build/
+.codegraph/
+.swiftpm/
+__pycache__/
+*.py[cod]
+.DS_Store
+*.xcuserstate
+*.trace/
+*.log
+.env
+.env.*
+Credentials/
+Diagnostics/

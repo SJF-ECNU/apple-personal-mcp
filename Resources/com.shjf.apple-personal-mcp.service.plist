@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plist version="1.0"><dict>
+<key>Label</key><string>com.shjf.apple-personal-mcp.service</string>
+<key>BundleProgram</key><string>Contents/MacOS/ApplePersonalMCPHost</string>
+<key>ProgramArguments</key><array><string>ApplePersonalMCPHost</string><string>--service</string></array>
+<key>MachServices</key><dict><key>com.shjf.apple-personal-mcp.service</key><true/><key>com.shjf.apple-personal-mcp.owner</key><true/></dict>
+<key>LimitLoadToSessionType</key><string>Aqua</string>
+<key>ProcessType</key><string>Interactive</string>
+</dict></plist>
