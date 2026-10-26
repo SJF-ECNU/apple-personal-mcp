@@ -1,0 +1,215 @@
+{
+  "version": "0.3.0",
+  "unit_tests": {
+    "passed": 33,
+    "failed": 0
+  },
+  "actions": {
+    "checks": {
+      "calendar_all_day_update_and_stale_rejection": true,
+      "recurrence_dst_and_single_occurrence_update": true,
+      "reminder_due_update_and_idempotent_completion": true,
+      "notes_plain_append_replace_move": true,
+      "native_confirmed_cleanup": true,
+      "deleted_objects_readback_absent": true
+    },
+    "created_objects": 7,
+    "confirmed_deleted_objects": 7
+  },
+  "voice": {
+    "checks": {
+      "unsupported_locale_explicit": true,
+      "cross_agent_job_isolation": true,
+      "queued_job_cancelled": true,
+      "native_mcp_resources_read": true,
+      "actual_generated_transcript_full_paging": true,
+      "actual_m4a_conversion": true,
+      "public_recording_start_stop_verified": true,
+      "actual_native_playback_started_and_stopped": true,
+      "actual_running_task_cancelled": true,
+      "actual_running_task_revocation_stopped": true,
+      "actual_running_task_restart_interrupted": true
+    },
+    "sample_duration_seconds": 8.883125,
+    "generated_transcript_scalars": 33,
+    "conversion_bytes": 75880,
+    "recording_result": {
+      "duration_seconds": 61.03333333333333,
+      "title_matched": true,
+      "audio_downloaded": true
+    },
+    "recording_first_attempt": {
+      "duration_seconds_observed_in_ui": 20,
+      "title_binding_failed": true,
+      "manually_stopped_by_user": true
+    },
+    "interruption_sample_duration_seconds": 211.87377083333334
+  },
+  "sends": {
+    "mail_status": "submitted",
+    "sms_status": "submitted",
+    "mail_duplicate_id_no_resend": true,
+    "sms_duplicate_id_no_resend": true,
+    "mail_sent_and_inbox_body_recipient_verified": true,
+    "mail_server_rewrote_message_id": true,
+    "sms_target_chat_outgoing_exactly_one": true,
+    "delivery_status_claimed_by_tools": null
+  },
+  "protocol": {
+    "version": "0.3.0",
+    "six_app_states": {
+      "calendar": "ready",
+      "mail": "ready",
+      "messages": "ready",
+      "notes": "ready",
+      "reminders": "ready",
+      "voice_memos": "ready"
+    },
+    "foreign_resource_denied": true,
+    "optional_prompts": 2,
+    "readonly_tool_count": 37
+  },
+  "activity_contains_test_recipients_or_content": false,
+  "regressions": {
+    "multi-agent": {
+      "independent_clients": 2,
+      "distinct_tool_permissions": true,
+      "reader_cannot_create_draft": true,
+      "mail_ready": true,
+      "accounts": 6,
+      "mailboxes": 36,
+      "actual_parallel_reads_observed": true,
+      "completed_body_scans": 4,
+      "real_attachment_isolated": true,
+      "live_downgrade_enforced": true,
+      "connected_agent_revocation_enforced": true,
+      "mail_regression": {
+        "protocol_version": "2025-11-25",
+        "readonly_tool_count": 12,
+        "readonly_enforced": true,
+        "mail_state": "ready",
+        "local_message_count": 3466,
+        "accounts": 6,
+        "mailboxes": 36,
+        "overview_latest": 10,
+        "body_downloaded": true,
+        "body_page_scalars": 35,
+        "read_did_not_mark_read": true,
+        "real_unread_inbox_message_stayed_unread": true,
+        "thread_rows": 1,
+        "batch_rows": 5,
+        "body_scan_checked": 3,
+        "body_scan_complete": false,
+        "attachment_export_bytes": 2608746
+      },
+      "permissions_survive_restart": true,
+      "revocation_survives_restart": true,
+      "external_send_attempted": false
+    },
+    "eventkit": {
+      "calendar_count": 7,
+      "reminder_list_count": 1,
+      "event_instances_in_360_days": 51,
+      "event_notes_roundtrip": true,
+      "reminders_total": 125,
+      "reminder_notes_roundtrip": true,
+      "cross_application_permissions_enforced": true,
+      "invalid_range_rejected": true,
+      "source_data_modified": false
+    },
+    "remaining-reads": {
+      "notes_folders": 6,
+      "notes_total": 120,
+      "notes_plain_and_html_read": true,
+      "notes_full_body_scalars": 1260,
+      "messages_state": {
+        "writes_implemented": false,
+        "state": "ready",
+        "archived_bodies": 2297,
+        "official_send_implemented": true,
+        "automation_status": 0,
+        "messages": 2297,
+        "backend": "local_readonly"
+      },
+      "chats_page_count": 2,
+      "message_body_sources_in_sample": {
+        "text_column": 779,
+        "typedstream": 221
+      },
+      "messages_full_body_read": true,
+      "actual_archived_body_read": true,
+      "actual_archived_body_scalars": 337,
+      "archived_sample_attachments": 0,
+      "archive_validation": {
+        "difference_shapes": [
+          {
+            "equal_after_removing_placeholders_and_edge_whitespace": true,
+            "plain_scalars": 199,
+            "archive_scalars": 200
+          },
+          {
+            "equal_after_removing_placeholders_and_edge_whitespace": true,
+            "archive_scalars": 223,
+            "plain_scalars": 222
+          },
+          {
+            "equal_after_removing_placeholders_and_edge_whitespace": true,
+            "archive_scalars": 180,
+            "plain_scalars": 179
+          },
+          {
+            "equal_after_removing_placeholders_and_edge_whitespace": true,
+            "plain_scalars": 242,
+            "archive_scalars": 243
+          },
+          {
+            "equal_after_removing_placeholders_and_edge_whitespace": true,
+            "plain_scalars": 179,
+            "archive_scalars": 180
+          },
+          {
+            "equal_after_removing_placeholders_and_edge_whitespace": true,
+            "plain_scalars": 144,
+            "archive_scalars": 145
+          },
+          {
+            "equal_after_removing_placeholders_and_edge_whitespace": true,
+            "plain_scalars": 111,
+            "archive_scalars": 112
+          }
+        ],
+        "identical_to_nonempty_text_column": 492,
+        "decode_failures": 0,
+        "decoded": 500,
+        "compared_to_nonempty_text_column": 499,
+        "sampled": 500
+      },
+      "application_scopes_enforced": true,
+      "voice_state": {
+        "generated_transcription_jobs": true,
+        "writes_implemented": false,
+        "state": "ready",
+        "media_controls_implemented": true,
+        "downloaded_media": 53,
+        "recordings": 53,
+        "backend": "local_readonly"
+      },
+      "recordings_page_count": 53,
+      "recording_extensions": [
+        "m4a"
+      ],
+      "voice_audio_exports": 1,
+      "original_transcripts_verified": 1,
+      "voice_audio_export_bytes": 511770,
+      "original_transcript_scalars": 75,
+      "original_transcript_media_extension": "m4a",
+      "source_data_modified": false
+    }
+  },
+  "cleanup": {
+    "validation_agents_revoked": 7,
+    "validation_job_records_and_work_dirs_removed": 12,
+    "remaining_active_agents": 0,
+    "original_test_recordings_and_sent_communications_retained": true
+  }
+}

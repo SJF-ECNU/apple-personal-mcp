@@ -1,0 +1,84 @@
+{
+  "notes_folders": 6,
+  "notes_total": 120,
+  "notes_plain_and_html_read": true,
+  "notes_full_body_scalars": 1260,
+  "messages_state": {
+    "state": "ready",
+    "archived_bodies": 2295,
+    "writes_implemented": false,
+    "messages": 2295,
+    "backend": "local_readonly"
+  },
+  "chats_page_count": 2,
+  "message_body_sources_in_sample": {
+    "text_column": 777,
+    "typedstream": 223
+  },
+  "messages_full_body_read": true,
+  "actual_archived_body_read": true,
+  "actual_archived_body_scalars": 337,
+  "archived_sample_attachments": 0,
+  "archive_validation": {
+    "sampled": 500,
+    "decode_failures": 0,
+    "difference_shapes": [
+      {
+        "equal_after_removing_placeholders_and_edge_whitespace": true,
+        "archive_scalars": 200,
+        "plain_scalars": 199
+      },
+      {
+        "equal_after_removing_placeholders_and_edge_whitespace": true,
+        "archive_scalars": 223,
+        "plain_scalars": 222
+      },
+      {
+        "equal_after_removing_placeholders_and_edge_whitespace": true,
+        "archive_scalars": 180,
+        "plain_scalars": 179
+      },
+      {
+        "equal_after_removing_placeholders_and_edge_whitespace": true,
+        "archive_scalars": 243,
+        "plain_scalars": 242
+      },
+      {
+        "equal_after_removing_placeholders_and_edge_whitespace": true,
+        "archive_scalars": 180,
+        "plain_scalars": 179
+      },
+      {
+        "equal_after_removing_placeholders_and_edge_whitespace": true,
+        "archive_scalars": 145,
+        "plain_scalars": 144
+      },
+      {
+        "equal_after_removing_placeholders_and_edge_whitespace": true,
+        "archive_scalars": 112,
+        "plain_scalars": 111
+      }
+    ],
+    "identical_to_nonempty_text_column": 492,
+    "compared_to_nonempty_text_column": 499,
+    "decoded": 500
+  },
+  "application_scopes_enforced": true,
+  "voice_state": {
+    "writes_implemented": false,
+    "state": "ready",
+    "backend": "local_readonly",
+    "recordings": 51,
+    "downloaded_media": 51
+  },
+  "recordings_page_count": 51,
+  "recording_extensions": [
+    "m4a"
+  ],
+  "voice_audio_exports": 1,
+  "original_transcripts_verified": 1,
+  "voice_audio_export_bytes": 3749663,
+  "original_transcript_scalars": 1906,
+  "original_transcript_media_extension": "m4a",
+  "source_data_modified": false
+}

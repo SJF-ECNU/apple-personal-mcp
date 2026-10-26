@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "apple-personal": {
+      "command": "/Applications/ApplePersonalMCP.app/Contents/Helpers/apple-personal-mcp",
+      "args": ["--credential-file", "/ABSOLUTE/PATH/FROM/APP/Credentials/AGENT-ID.json", "--read-only"]
+    }
+  }
+}

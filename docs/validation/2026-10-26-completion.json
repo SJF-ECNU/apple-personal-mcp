@@ -1,0 +1,214 @@
+{
+  "version": "0.4.0",
+  "date": "2026-10-26",
+  "unit_tests": {
+    "passed": 40,
+    "failed": 0
+  },
+  "checks": {
+    "actual_chunk_upload_and_finish_retry": true,
+    "actual_notes_attachment_directory_export": true,
+    "actual_official_body_and_unread_preserved": true,
+    "actual_flags_undo_and_repeat": true,
+    "actual_attachment_added": true,
+    "actual_calendar_invitation_prepared": true,
+    "actual_draft_attachment_full_bytes": 1440000,
+    "actual_undo_conflict": true,
+    "actual_mcp_cancel_stopped_batch": true,
+    "batch_results_before_stop": 4,
+    "batch_retry_no_reexecution": true,
+    "actual_official_mailbox_catalog": true,
+    "actual_official_qualified_search_get": true,
+    "actual_move_and_undo": true,
+    "actual_official_attachment_export": 1440000,
+    "actual_native_calendar_ics_bytes": 553,
+    "multi_agent_restart_regression": true,
+    "installed_version": "0.4.0",
+    "attachment_send_operation_submitted": true,
+    "attachment_send_operation_retry_no_resend": true,
+    "visible_native_draft_initialization_fix": true,
+    "attachment_send_operation_canonical_submitted": true,
+    "attachment_send_operation_canonical_retry_no_resend": true,
+    "actual_sent_attachment_bytes": 1440000,
+    "calendar_prepared_draft_recheck_after_fix": true,
+    "unit_tests_passed": 40,
+    "calendar_invitation_live_send": "not_retested"
+  },
+  "mail_attachment_send": {
+    "initial_hidden_compose": "submitted but attachments absent in Sent and Inbox; failed acceptance",
+    "final_native_compose": "submitted; full Sent attachment equals uploaded 1440000 bytes",
+    "retry_reexecutes": false
+  },
+  "calendar_invitation": {
+    "generation_and_native_attachment": true,
+    "prepared_draft_readonly_recheck_after_fix": true,
+    "live_send": "not_retested; earlier source_changed refusals happened before send"
+  },
+  "release": {
+    "installed": "/Applications/ApplePersonalMCP.app",
+    "development_signed": true,
+    "developer_id_application_available": false,
+    "notarized": false
+  },
+  "regressions": {
+    "multi-agent": {
+      "independent_clients": 2,
+      "distinct_tool_permissions": true,
+      "reader_cannot_create_draft": true,
+      "mail_ready": true,
+      "accounts": 6,
+      "mailboxes": 36,
+      "actual_parallel_reads_observed": true,
+      "completed_body_scans": 4,
+      "real_attachment_isolated": true,
+      "live_downgrade_enforced": true,
+      "connected_agent_revocation_enforced": true,
+      "mail_regression": {
+        "protocol_version": "2025-11-25",
+        "readonly_tool_count": 14,
+        "readonly_enforced": true,
+        "mail_state": "ready",
+        "local_message_count": 3472,
+        "accounts": 6,
+        "mailboxes": 36,
+        "overview_latest": 10,
+        "body_downloaded": true,
+        "body_page_scalars": 100,
+        "body_continuation": true,
+        "read_did_not_mark_read": true,
+        "real_unread_inbox_message_stayed_unread": true,
+        "thread_rows": 1,
+        "batch_rows": 5,
+        "body_scan_checked": 3,
+        "body_scan_complete": false,
+        "attachment_export_bytes": 553
+      },
+      "permissions_survive_restart": true,
+      "revocation_survives_restart": true,
+      "external_send_attempted": false
+    },
+    "eventkit": {
+      "calendar_count": 7,
+      "reminder_list_count": 1,
+      "event_instances_in_360_days": 52,
+      "event_notes_roundtrip": true,
+      "reminders_total": 125,
+      "reminder_notes_roundtrip": true,
+      "cross_application_permissions_enforced": true,
+      "invalid_range_rejected": true,
+      "source_data_modified": false
+    },
+    "remaining": {
+      "notes_folders": 6,
+      "notes_total": 120,
+      "notes_plain_and_html_read": true,
+      "notes_full_body_scalars": 1260,
+      "messages_state": {
+        "writes_implemented": false,
+        "official_send_implemented": true,
+        "state": "ready",
+        "archived_bodies": 2307,
+        "automation_status": 0,
+        "backend": "local_readonly",
+        "messages": 2307
+      },
+      "chats_page_count": 2,
+      "message_body_sources_in_sample": {
+        "text_column": 789,
+        "typedstream": 211
+      },
+      "messages_full_body_read": true,
+      "actual_archived_body_read": true,
+      "actual_archived_body_scalars": 326,
+      "archived_sample_attachments": 0,
+      "archive_validation": {
+        "decoded": 500,
+        "decode_failures": 0,
+        "sampled": 500,
+        "identical_to_nonempty_text_column": 492,
+        "compared_to_nonempty_text_column": 499,
+        "difference_shapes": [
+          {
+            "equal_after_removing_placeholders_and_edge_whitespace": true,
+            "archive_scalars": 200,
+            "plain_scalars": 199
+          },
+          {
+            "equal_after_removing_placeholders_and_edge_whitespace": true,
+            "archive_scalars": 223,
+            "plain_scalars": 222
+          },
+          {
+            "equal_after_removing_placeholders_and_edge_whitespace": true,
+            "archive_scalars": 180,
+            "plain_scalars": 179
+          },
+          {
+            "equal_after_removing_placeholders_and_edge_whitespace": true,
+            "archive_scalars": 243,
+            "plain_scalars": 242
+          },
+          {
+            "equal_after_removing_placeholders_and_edge_whitespace": true,
+            "archive_scalars": 180,
+            "plain_scalars": 179
+          },
+          {
+            "equal_after_removing_placeholders_and_edge_whitespace": true,
+            "archive_scalars": 145,
+            "plain_scalars": 144
+          },
+          {
+            "equal_after_removing_placeholders_and_edge_whitespace": true,
+            "archive_scalars": 112,
+            "plain_scalars": 111
+          }
+        ]
+      },
+      "application_scopes_enforced": true,
+      "voice_state": {
+        "downloaded_media": 53,
+        "media_controls_implemented": true,
+        "writes_implemented": false,
+        "state": "ready",
+        "recordings": 53,
+        "backend": "local_readonly",
+        "generated_transcription_jobs": true
+      },
+      "recordings_page_count": 53,
+      "recording_extensions": [
+        "m4a"
+      ],
+      "voice_audio_exports": 1,
+      "original_transcripts_verified": 1,
+      "voice_audio_export_bytes": 511770,
+      "original_transcript_scalars": 75,
+      "original_transcript_media_extension": "m4a",
+      "source_data_modified": false
+    },
+    "six-clients": {
+      "independent_stdio_clients": 2,
+      "clients": [
+        {
+          "protocol": "2025-11-25",
+          "applications": 6,
+          "six_application_reads": true,
+          "resource_and_prompts": true
+        },
+        {
+          "protocol": "2025-11-25",
+          "applications": 6,
+          "six_application_reads": true,
+          "resource_and_prompts": true
+        }
+      ]
+    }
+  },
+  "cleanup": {
+    "validation_agent_revoked": true,
+    "temporary_exports_and_uploads_removed": true,
+    "draft_attachment_work_files_retained": true,
+    "test_calendar_event_retained": true,
+    "private_payload_absent_from_activity_log": true
+  }
+}

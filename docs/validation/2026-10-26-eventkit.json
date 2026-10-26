@@ -1,0 +1,11 @@
+{
+  "calendar_count": 7,
+  "reminder_list_count": 1,
+  "event_instances_in_360_days": 51,
+  "event_notes_roundtrip": true,
+  "reminders_total": 125,
+  "reminder_notes_roundtrip": true,
+  "cross_application_permissions_enforced": true,
+  "invalid_range_rejected": true,
+  "source_data_modified": false
+}
