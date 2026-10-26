@@ -23,12 +23,11 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSXPCListenerDelegate 
     private var ownerListener: NSXPCListener?
     private let ownerEndpoint = OwnerEndpoint()
     private var broker: RequestBroker?
-    private var agentManagement: AgentManagement?
-    private var window: NSWindow?
+    private var dashboard: DashboardWindow?
     private var statusItem: NSStatusItem?
-    func applicationDidFinishLaunching(_ notification: Notification) {
+    @MainActor func applicationDidFinishLaunching(_ notification: Notification) {
         let args = CommandLine.arguments
-        ownerEndpoint.openManagement = { [weak self] in self?.showAgents() }
+        ownerEndpoint.openManagement = { [weak self] in self?.showDashboard() }
         if let index = args.firstIndex(of: "--configure-recording-shortcuts"), args.count == index + 3 {
             do { try VoiceControl.configure(root: AppIdentity.support, start: args[index + 1], stop: args[index + 2]); FileHandle.standardOutput.write(Data("{\"configured\":true}\n".utf8)); exit(0) }
             catch { FileHandle.standardError.write(Data("Recording setup failed: \(error)\n".utf8)); exit(1) }
@@ -75,6 +74,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSXPCListenerDelegate 
             } catch { FileHandle.standardError.write(Data("Service registration: \(error)\n".utf8)) }
             NSApp.terminate(nil); return
         }
+        configureMainMenu()
         if args.contains("--service") {
             let fixture = ProcessInfo.processInfo.environment["APPLE_PERSONAL_MCP_MAIL_ROOT"].map { URL(fileURLWithPath: $0) }
             do { broker = RequestBroker(registry: try AgentRegistry(), mailRoot: fixture) }
@@ -94,6 +94,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSXPCListenerDelegate 
         statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.variableLength)
         statusItem?.button?.title = "APM"
         let menu = NSMenu()
+        menu.addItem(withTitle: "打开 Apple Personal MCP…", action: #selector(showOverview), keyEquivalent: "").target = self
         menu.addItem(withTitle: "Agent 管理…", action: #selector(showAgents), keyEquivalent: "").target = self
         menu.addItem(withTitle: "状态与权限…", action: #selector(showSettings), keyEquivalent: "").target = self
         menu.addItem(withTitle: "退出", action: #selector(quit), keyEquivalent: "q").target = self
@@ -114,27 +115,48 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSXPCListenerDelegate 
         connection.interruptionHandler = { [weak endpoint] in endpoint?.session.invalidate() }
         connection.resume(); return true
     }
-    @objc func showAgents() {
-        do {
-            if agentManagement == nil { agentManagement = try AgentManagement(registry: AgentRegistry()) }
-            agentManagement?.show()
-        } catch { alert("Agent 管理不可用", error.localizedDescription) }
-    }
-    @objc func showSettings() {
-        NSApp.activate(ignoringOtherApps: true)
-        let w = NSWindow(contentRect: NSRect(x: 0, y: 0, width: 640, height: 620), styleMask: [.titled, .closable, .miniaturizable], backing: .buffered, defer: false)
-        w.title = "Apple Personal MCP · 本机开发版"; w.center(); w.isReleasedWhenClosed = false
-        let stack = NSStackView(); stack.orientation = .vertical; stack.alignment = .leading; stack.spacing = 16
-        stack.translatesAutoresizingMaskIntoConstraints = false; w.contentView?.addSubview(stack)
-        NSLayoutConstraint.activate([stack.leadingAnchor.constraint(equalTo: w.contentView!.leadingAnchor, constant: 24), stack.trailingAnchor.constraint(equalTo: w.contentView!.trailingAnchor, constant: -24), stack.topAnchor.constraint(equalTo: w.contentView!.topAnchor, constant: 24)])
-        let text = NSTextField(wrappingLabelWithString: "统一 App · 六应用 · 多 Agent\n每个 Agent 使用独立凭据与应用权限；读取并行，修改按应用排队。\n邮件、日历、提醒事项与备忘录支持读写；信息发送需单独授权并确认。\n语音支持原始转写、本地生成转写任务、转换和播放。录音控制需专用公开快捷指令，开始/停止都需本机确认。")
-        stack.addArrangedSubview(text)
-        for (label, action) in [("Agent 管理", #selector(showAgents)), ("启用 / 重启用户服务", #selector(registerService)), ("打开完全磁盘访问设置", #selector(openPrivacy)), ("请求 Mail 自动化授权", #selector(requestAutomation)), ("授权日历与提醒事项", #selector(requestEventKitFromUI)), ("授权备忘录", #selector(requestNotesFromUI)), ("授权信息自动化", #selector(requestMessagesFromUI)), ("配置录音快捷指令…", #selector(configureRecording))] {
-            let button = NSButton(title: label, target: self, action: action); stack.addArrangedSubview(button)
+    @MainActor @objc func showOverview() { showDashboard(.overview) }
+    @MainActor @objc func showAgents() { showDashboard(.agents) }
+    @MainActor @objc func showSettings() { showDashboard(.applications) }
+    @MainActor private func configureMainMenu() {
+        let menu = NSMenu()
+        let app = NSMenu(); app.addItem(withTitle: "退出 Apple Personal MCP", action: #selector(quit), keyEquivalent: "q").target = self
+        let edit = NSMenu()
+        for (title, action, key) in [("剪切", #selector(NSText.cut(_:)), "x"), ("复制", #selector(NSText.copy(_:)), "c"), ("粘贴", #selector(NSText.paste(_:)), "v"), ("全选", #selector(NSText.selectAll(_:)), "a")] {
+            edit.addItem(withTitle: title, action: action, keyEquivalent: key)
         }
-        w.makeKeyAndOrderFront(nil); window = w
+        let window = NSMenu()
+        window.addItem(withTitle: "关闭窗口", action: #selector(NSWindow.performClose(_:)), keyEquivalent: "w")
+        window.addItem(withTitle: "最小化", action: #selector(NSWindow.performMiniaturize(_:)), keyEquivalent: "m")
+        window.addItem(withTitle: "缩放", action: #selector(NSWindow.performZoom(_:)), keyEquivalent: "")
+        window.addItem(withTitle: "刷新状态", action: #selector(refreshDashboard), keyEquivalent: "r").target = self
+        for (title, submenu) in [("Apple Personal MCP", app), ("编辑", edit), ("窗口", window)] {
+            let item = NSMenuItem(title: title, action: nil, keyEquivalent: ""); item.submenu = submenu; menu.addItem(item)
+        }
+        NSApp.mainMenu = menu
     }
-    @objc func registerService() {
+    @MainActor @objc private func refreshDashboard() { dashboard?.refresh() }
+    @MainActor private func showDashboard(_ page: DashboardPage? = nil) {
+        do {
+            if dashboard == nil {
+                dashboard = try DashboardWindow(registry: AgentRegistry(), serviceRunning: { [weak self] in self?.broker != nil }, action: { [weak self] action in
+                    guard let self else { return }
+                    switch action {
+                    case "privacy": self.openPrivacy()
+                    case "mail": self.requestAutomation()
+                    case "eventkit": self.requestEventKitFromUI()
+                    case "notes": self.requestNotesFromUI()
+                    case "messages": self.requestMessagesFromUI()
+                    case "recording": self.configureRecording()
+                    case "service": self.registerService()
+                    default: break
+                    }
+                })
+            }
+            dashboard?.show(page)
+        } catch { alert("管理界面不可用", error.localizedDescription) }
+    }
+    @MainActor @objc func registerService() {
         do {
             let agent = SMAppService.agent(plistName: "com.shjf.apple-personal-mcp.service.plist")
             if agent.status == .enabled { try agent.unregister() }
@@ -142,26 +164,29 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSXPCListenerDelegate 
             alert("用户服务已注册", "现在可运行命令行 doctor 检查实际权限。")
         } catch { alert("注册失败", error.localizedDescription) }
     }
-    @objc func openPrivacy() { NSWorkspace.shared.open(URL(string: "x-apple.systempreferences:com.apple.preference.security?Privacy_AllFiles")!) }
-    @objc func requestAutomation() {
-        DispatchQueue.global().async { let value = MailAutomation.permissionStatus(ask: true); DispatchQueue.main.async { self.alert("Mail 自动化", "系统状态码：\(value)") } }
+    @MainActor @objc func openPrivacy() { NSWorkspace.shared.open(URL(string: "x-apple.systempreferences:com.apple.preference.security?Privacy_AllFiles")!) }
+    @MainActor @objc func requestAutomation() {
+        Task {
+            let value = await Task.detached { MailAutomation.permissionStatus(ask: true) }.value
+            alert("Mail 自动化", value == 0 ? "已允许控制 Mail。发送仍需本机确认。" : "系统尚未允许控制 Mail，请检查隐私与安全性中的自动化设置，再刷新状态。")
+        }
     }
-    @objc func requestEventKitFromUI() { requestEventKit(quitWhenDone: false) }
-    @objc func requestNotesFromUI() {
+    @MainActor @objc func requestEventKitFromUI() { requestEventKit(quitWhenDone: false) }
+    @MainActor @objc func requestNotesFromUI() {
         Task {
             do {
                 let data = try await OwnerClient().requestNotesPermission()
-                DispatchQueue.main.async { let alert = NSAlert(); alert.messageText = "备忘录授权状态"; alert.informativeText = String(decoding: data, as: UTF8.self); alert.runModal() }
+                DispatchQueue.main.async { self.showAutomationResult(data, application: "备忘录") }
             } catch { DispatchQueue.main.async { let alert = NSAlert(); alert.messageText = "备忘录授权失败"; alert.informativeText = String(describing: error); alert.runModal() } }
         }
     }
-    @objc func requestMessagesFromUI() {
+    @MainActor @objc func requestMessagesFromUI() {
         Task {
-            do { let data = try await OwnerClient().requestMessagesPermission(); await MainActor.run { self.alert("信息授权状态", String(decoding: data, as: UTF8.self)) } }
+            do { let data = try await OwnerClient().requestMessagesPermission(); await MainActor.run { self.showAutomationResult(data, application: "信息") } }
             catch { await MainActor.run { self.alert("信息授权失败", String(describing: error)) } }
         }
     }
-    @objc func configureRecording() {
+    @MainActor @objc func configureRecording() {
         let alert = NSAlert(); alert.messageText = "配置专用录音快捷指令"
         alert.informativeText = "在快捷指令中分别创建：获取快捷指令输入文本→创建录音（名称=文本）；停止录音。这里只接受这两个专用快捷指令的 UUID，不接受命令或任意脚本。"
         let stack = NSStackView(); stack.orientation = .vertical; stack.spacing = 8
@@ -176,13 +201,18 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSXPCListenerDelegate 
         do { try VoiceControl.configure(root: AppIdentity.support, start: start.stringValue, stop: stop.stringValue) }
         catch { self.alert("配置失败", String(describing: error)) }
     }
-    private func requestEventKit(quitWhenDone: Bool) {
+    @MainActor private func requestEventKit(quitWhenDone: Bool) {
         Task {
             do {
                 let data = try await OwnerClient().requestEventKitPermissions()
                 DispatchQueue.main.async {
                     if quitWhenDone { FileHandle.standardOutput.write(data + Data([10])); NSApp.terminate(nil) }
-                    else { let alert = NSAlert(); alert.messageText = "日历与提醒事项授权状态"; alert.informativeText = String(decoding: data, as: UTF8.self); alert.runModal() }
+                    else {
+                        let result = try? JSONDecoder().decode(JSON.self, from: data)
+                        let calendar = result?["calendar_granted"].boolean == true ? "已允许" : "未允许"
+                        let reminders = result?["reminders_granted"].boolean == true ? "已允许" : "未允许"
+                        self.alert("日历与提醒事项", "日历：\(calendar)\n提醒事项：\(reminders)\n可在系统设置中调整，完成后刷新。")
+                    }
                 }
             } catch {
                 DispatchQueue.main.async {
@@ -192,13 +222,17 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSXPCListenerDelegate 
             }
         }
     }
-    func applicationShouldHandleReopen(_ sender: NSApplication, hasVisibleWindows flag: Bool) -> Bool { showAgents(); return true }
-    private func alert(_ title: String, _ text: String) { let a = NSAlert(); a.messageText = title; a.informativeText = text; a.runModal() }
-    @objc func quit() { NSApp.terminate(nil) }
+    @MainActor func applicationShouldHandleReopen(_ sender: NSApplication, hasVisibleWindows flag: Bool) -> Bool { showDashboard(); return true }
+    @MainActor private func showAutomationResult(_ data: Data, application: String) {
+        let result = try? JSONDecoder().decode(JSON.self, from: data)
+        alert("\(application)自动化", result?["status"].int == 0 ? "系统已允许控制\(application)。" : "系统尚未允许访问，请检查隐私与安全性中的自动化设置，再刷新状态。")
+    }
+    @MainActor private func alert(_ title: String, _ text: String) { let a = NSAlert(); a.messageText = title; a.informativeText = text; a.runModal(); dashboard?.refresh() }
+    @MainActor @objc func quit() { NSApp.terminate(nil) }
 }
 
 final class OwnerEndpoint: NSObject, OwnerProtocol {
-    var openManagement: (() -> Void)? // Main queue only.
+    var openManagement: (@MainActor () -> Void)? // Main queue only.
     private var requesting = false // Main queue only.
     func showAgentManagement(_ reply: @escaping (Data) -> Void) {
         DispatchQueue.main.async { self.openManagement?(); reply(Data("{\"shown\":true}".utf8)) }

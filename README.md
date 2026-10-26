@@ -6,6 +6,8 @@
 
 当前开发版0.4.0已实现多Agent独立授权、并发调度、六应用读取、日历/提醒/备忘录写入、信息官方发送及语音后台任务。当前Mac已验证日历、提醒、笔记正文、信息历史、已有录音音频和一份原始转写全文。[多Agent记录](docs/validation/2026-10-26-multi-agent.md)、[六应用读取记录](docs/validation/2026-10-26-six-app-reads.md)区分实测、合成覆盖和未完成项；[首阶段邮件记录](docs/validation/2026-10-26-framework-mail.md)保留历史结果。
 
+原生管理窗口采用黑灰深色界面，提供概览、Agent、应用和活动四个页面；六应用图标从本机应用读取。状态在打开窗口和手动刷新时检查，系统访问与 Agent 权限分别展示；最近活动只显示工具、Agent、状态、时间和耗时，不显示私人正文。[界面验证记录](docs/validation/2026-10-27-native-dashboard.md)。
+
 ## 构建与启动
 
 当前源码开发版面向 Apple silicon / macOS 26+，本机使用 Xcode 的 Swift 6.3.3 验证。需要本机有效的 Apple 代码签名身份。
@@ -25,7 +27,7 @@ launchctl kickstart -k "gui/$(id -u)/com.shjf.apple-personal-mcp.service"
 
 ## 创建 Agent 与接入
 
-打开 App 的“Agent 管理”，输入名称并勾选需要的应用权限，点击“创建 Agent”及“复制 MCP 配置”，将配置合入对应 Agent。每个 Agent 分别创建，不要共享凭据文件。界面支持修改权限及撤销；修改无需重启。系统授权与这里的 Agent 权限都必须满足。未实现能力不会因勾选权限变为可用。
+打开 App 的“Agent”页面，新建 Agent，输入名称并勾选需要的应用权限，点击“创建 Agent”及“复制 MCP 配置”，将配置合入对应 Agent。每个 Agent 分别创建，不要共享凭据文件。界面支持修改权限及撤销；修改无需重启。已撤销的记录默认隐藏，可勾选显示。系统授权与这里的 Agent 权限都必须满足。未实现能力不会因勾选权限变为可用。
 
 复制的配置只包含入口和私密凭据文件路径，不包含密钥。[配置模板](examples/mcp-config.json) 中的占位路径需要替换。可额外添加 `--read-only` 限制该连接；去掉它不会绕过 App 中的权限。邮件发送需要单独的 mail.send 权限及本机人工确认。
 
