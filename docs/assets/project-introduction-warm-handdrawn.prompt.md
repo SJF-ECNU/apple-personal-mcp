@@ -32,4 +32,3 @@ Composition: leave generous margins and breathing room. Clear hierarchy: title, 
 ```
 
 喵～
-
