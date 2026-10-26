@@ -7,7 +7,7 @@ public enum AppIdentity {
     public static let bridge = "com.shjf.apple-personal-mcp.bridge"
     public static let service = "com.shjf.apple-personal-mcp.service"
     public static let ownerService = "com.shjf.apple-personal-mcp.owner"
-    public static let version = "0.4.0"
+    public static let version = "0.5.0"
     public static var support: URL { FileManager.default.homeDirectoryForCurrentUser.appendingPathComponent("Library/Application Support/ApplePersonalMCP") }
     public static func peerRequirement(identifier: String) throws -> String {
         var code: SecCode?

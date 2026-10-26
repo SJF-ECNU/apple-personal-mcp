@@ -4,16 +4,18 @@
 
 统一的本机原生 App，连接多个 Agent 与 macOS 应用。Swift 宿主访问系统应用，每个 Agent 通过 App 内附的原生 stdio 入口连接同一个 XPC 服务。不使用 Docker、npm 或 Node。
 
-当前开发版0.4.0已实现多Agent独立授权、并发调度、六应用读取、日历/提醒/备忘录写入、信息官方发送及语音后台任务。当前Mac已验证日历、提醒、笔记正文、信息历史、已有录音音频和一份原始转写全文。[多Agent记录](docs/validation/2026-10-26-multi-agent.md)、[六应用读取记录](docs/validation/2026-10-26-six-app-reads.md)区分实测、合成覆盖和未完成项；[首阶段邮件记录](docs/validation/2026-10-26-framework-mail.md)保留历史结果。
+当前开发预览版0.5.0已实现多Agent独立授权、并发调度、六应用读取、日历/提醒/备忘录写入、信息官方发送及语音后台任务，并提供统一深色管理界面与原生 App 图标。当前Mac已验证日历、提醒、笔记正文、信息历史、已有录音音频和一份原始转写全文。[多Agent记录](docs/validation/2026-10-26-multi-agent.md)、[六应用读取记录](docs/validation/2026-10-26-six-app-reads.md)区分实测、合成覆盖和未完成项；[首阶段邮件记录](docs/validation/2026-10-26-framework-mail.md)保留历史结果。
 
 原生管理窗口采用黑灰深色界面，提供概览、Agent、应用和活动四个页面；六应用图标从本机应用读取。状态在打开窗口和手动刷新时检查，系统访问与 Agent 权限分别展示；最近活动只显示工具、Agent、状态、时间和耗时，不显示私人正文。[界面验证记录](docs/validation/2026-10-27-native-dashboard.md)。
 
 ## 构建与启动
 
+[GitHub Release](https://github.com/SJF-ECNU/apple-personal-mcp/releases/tag/v0.5.0) 提供 Apple silicon / macOS 26+ 的优化构建 ZIP。当前为 Development 签名、未公证的开发预览，不能保证在其他 Mac 直接通过系统分发校验；可使用下面的方法从源码以本机签名身份构建。
+
 当前源码开发版面向 Apple silicon / macOS 26+，本机使用 Xcode 的 Swift 6.3.3 验证。需要本机有效的 Apple 代码签名身份。
 
 ```sh
-Scripts/build-app.sh --install
+Scripts/build-app.sh --release --install
 /Applications/ApplePersonalMCP.app/Contents/MacOS/ApplePersonalMCPHost --register
 ```
 
