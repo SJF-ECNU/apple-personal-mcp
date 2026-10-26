@@ -1,5 +1,7 @@
 # Apple Personal MCP
 
+![Apple Personal MCP 项目介绍：多个 Agent 通过统一 App 连接邮件、日历、提醒事项、备忘录、信息和语音备忘录，支持独立授权、本机访问与操作确认。](docs/assets/project-introduction-warm-handdrawn.png)
+
 统一的本机原生 App，连接多个 Agent 与 macOS 应用。Swift 宿主访问系统应用，每个 Agent 通过 App 内附的原生 stdio 入口连接同一个 XPC 服务。不使用 Docker、npm 或 Node。
 
 当前开发版0.4.0已实现多Agent独立授权、并发调度、六应用读取、日历/提醒/备忘录写入、信息官方发送及语音后台任务。当前Mac已验证日历、提醒、笔记正文、信息历史、已有录音音频和一份原始转写全文。[多Agent记录](docs/validation/2026-10-26-multi-agent.md)、[六应用读取记录](docs/validation/2026-10-26-six-app-reads.md)区分实测、合成覆盖和未完成项；[首阶段邮件记录](docs/validation/2026-10-26-framework-mail.md)保留历史结果。
